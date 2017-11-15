@@ -2,7 +2,7 @@
 from . import BaseWorld
 
 class Cache(BaseWorld):
-    def __init__(self, max_size=None, delay=0):
+    def __init__(self, max_size=None, delay=0, pre_add=lambda trajs, hist:hist):
         import numpy as np
 
         all_data = []
@@ -10,6 +10,7 @@ class Cache(BaseWorld):
         def add_trajectories(trajs):
             nonlocal all_data
 
+            all_data = pre_add(trajs, all_data)
             for t in trajs:
                 obs, act, rew = zip(*t)
 
